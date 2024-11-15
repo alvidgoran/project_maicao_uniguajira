@@ -49,7 +49,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CORREO o usuario"
+            android:text="CORREO O USUARIO"
             android:textColor="#FF0000"
             android:textStyle="bold"
             android:layout_marginBottom="8dp" />

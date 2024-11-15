@@ -18,7 +18,7 @@ class loginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         // Configurar el Spinner
-        // Dentro de onCreate de loginActivity.kt
+
         val textViewNoAccount: TextView = findViewById(R.id.textViewNoAccount)
         textViewNoAccount.setOnClickListener {
             // Redirige a la primera pantalla de registro
@@ -26,9 +26,11 @@ class loginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val iniciarsesion: TextView = findViewById(R.id.buttonLogin)
-        textViewNoAccount.setOnClickListener {
-            // Redirige a la pantalla de usuario
+        // Botón "login"
+        val dash: Button = findViewById(R.id.buttonLogin)
+
+        // Configurar el OnClickListener para el botón Siguiente
+        dash.setOnClickListener {
             val intent = Intent(this, dashboardActivity::class.java)
             startActivity(intent)
         }

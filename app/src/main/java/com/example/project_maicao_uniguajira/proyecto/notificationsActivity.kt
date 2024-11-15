@@ -1,8 +1,8 @@
 package com.example.project_maicao_uniguajira.proyecto
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -10,11 +10,12 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.project_maicao_uniguajira.R
 import android.widget.ImageButton
 
-class dashboardActivity : AppCompatActivity() {
+class notificationsActivity : AppCompatActivity() {
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_dashboard)
+        setContentView(R.layout.activity_notifications)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -22,18 +23,9 @@ class dashboardActivity : AppCompatActivity() {
             insets
         }
 
-        // Configura el botón de búsqueda (lupa) para abrir searchActivity
-        findViewById<ImageButton>(R.id.btnSearch).setOnClickListener {
-            startActivity(Intent(this, searchActivity::class.java))
+        // Configura el botón de retroceso para volver al dashboard
+        findViewById<ImageButton>(R.id.btnBackNotifications).setOnClickListener {
+            onBackPressed()  // Esto hace que la pantalla actual se cierre y regrese a la pantalla anterior
         }
-        // Botón "menu"
-        val menu_Button: ImageButton = findViewById(R.id.btnMenu)
-
-        // Configurar el OnClickListener para el botón Siguiente
-        menu_Button.setOnClickListener {
-            val intent = Intent(this, menuActivity::class.java)
-            startActivity(intent)
-        }
-
     }
 }

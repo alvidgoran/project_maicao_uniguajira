@@ -91,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@drawable/edit_text_background"
-            android:hint="Please enter"
+            android:hint="su correo "
             android:inputType="textEmailAddress"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
