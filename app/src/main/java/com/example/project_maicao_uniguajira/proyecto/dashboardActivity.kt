@@ -29,11 +29,7 @@ class dashboardActivity : AppCompatActivity() {
         // Botón "menu"
         val menu_Button: ImageButton = findViewById(R.id.btnMenu)
 
-        // Configurar el OnClickListener para el botón Siguiente
-        menu_Button.setOnClickListener {
-            val intent = Intent(this, menuActivity::class.java)
-            startActivity(intent)
-        }
+
 
     }
 }

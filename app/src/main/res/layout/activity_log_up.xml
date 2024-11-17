@@ -69,13 +69,8 @@
             android:paddingEnd="12dp"
             android:layout_marginBottom="16dp"/>
 
-        <!-- Spinner de Género -->
-        <Spinner
-            android:id="@+id/spinnerGender"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@drawable/spinner_background"
-            android:layout_marginBottom="16dp"/>
+
+
 
         <!-- Campo Correo -->
         <TextView

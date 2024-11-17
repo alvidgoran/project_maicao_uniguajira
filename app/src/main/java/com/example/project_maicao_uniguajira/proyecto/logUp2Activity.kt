@@ -12,10 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.project_maicao_uniguajira.R
-import kotlinx.coroutines.*
-import java.io.OutputStreamWriter
-import java.net.HttpURLConnection
-import java.net.URL
+import com.google.firebase.FirebaseApp
+import com.google.firebase.database.FirebaseDatabase
 
 class logUp2Activity : AppCompatActivity() {
 
@@ -24,7 +22,10 @@ class logUp2Activity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_log_up2)
 
+        // Inicializar Firebase
+        FirebaseApp.initializeApp(this)
 
+        // Configura el comportamiento de la ventana
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -39,7 +40,6 @@ class logUp2Activity : AppCompatActivity() {
         // Configura el texto "Ya tienes una cuenta? Iniciar sesión"
         val textViewBackToLogin: TextView = findViewById(R.id.textViewBackToLogin)
         textViewBackToLogin.setOnClickListener {
-            // Redirige al loginActivity
             val intent = Intent(this, loginActivity::class.java)
             startActivity(intent)
         }
@@ -47,66 +47,49 @@ class logUp2Activity : AppCompatActivity() {
         // Configura el botón de "Registrar"
         val buttonRegister: Button = findViewById(R.id.buttonRegister)
         buttonRegister.setOnClickListener {
-            // Obtiene los valores de los campos de texto
             val password = findViewById<EditText>(R.id.editTextPassword).text.toString()
             val confirmPassword = findViewById<EditText>(R.id.editTextConfirmPassword).text.toString()
             val termsAccepted = findViewById<CheckBox>(R.id.checkBoxTerms).isChecked
 
-            // Validación básica
             if (password == confirmPassword) {
                 if (termsAccepted) {
-                    // Si las contraseñas coinciden y los términos están aceptados
-                    registerUser(nombre, apellido, correo, password)
+                    // Registrar usuario en Firebase
+                    registerUserFirebase(nombre, apellido, correo, password)
 
-                    // Redirige al Dashboard
+                    // Redirigir al Dashboard
                     val intent = Intent(this, dashboardActivity::class.java)
                     startActivity(intent)
-                    finish()  // Para que el usuario no pueda volver a esta pantalla al presionar el botón de retroceso
+                    finish()
                 } else {
-                    // Si no se aceptan los términos
                     Toast.makeText(this, "Por favor, acepte los términos y condiciones", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                // Si las contraseñas no coinciden
                 Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    // Función para registrar al usuario y enviar los datos a la API de PHP
-    private fun registerUser(nombre: String, apellido: String, correo: String, password: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val url = URL("http://10.0.2.2/bd_social_media_api/register.php") // Cambia con la URL de tu API
-                val httpURLConnection = url.openConnection() as HttpURLConnection
-                httpURLConnection.requestMethod = "POST"
-                httpURLConnection.doOutput = true
+    // Registrar usuario en Firebase
+    private fun registerUserFirebase(nombre: String, apellido: String, correo: String, password: String) {
+        val database = FirebaseDatabase.getInstance("https://red-social-8b6db-default-rtdb.firebaseio.com/")
+        val usersRef = database.getReference("users")
 
-                // Crea los datos a enviar en el cuerpo del POST
-                val postData = "nombre=$nombre&apellido=$apellido&correo=$correo&password=$password"
-
-                val outputStreamWriter = OutputStreamWriter(httpURLConnection.outputStream)
-                outputStreamWriter.write(postData)
-                outputStreamWriter.flush()
-
-                val responseCode = httpURLConnection.responseCode
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(this@logUp2Activity, "Registro2 exitoso", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this@logUp2Activity, dashboardActivity::class.java))
-                        finish()
-                    }
-                } else {
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(this@logUp2Activity, "Error en el registro", Toast.LENGTH_SHORT).show()
-                    }
+        val userId = usersRef.push().key // Generar un ID único para el usuario
+        if (userId != null) {
+            val user = mapOf(
+                "id" to userId,
+                "nombre" to nombre,
+                "apellido" to apellido,
+                "correo" to correo,
+                "password" to password
+            )
+            usersRef.child(userId).setValue(user)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show()
                 }
-                httpURLConnection.disconnect()
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(this@logUp2Activity, "Error en la conexión: ${e.message}", Toast.LENGTH_LONG).show()
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error al registrar usuario: ${e.message}", Toast.LENGTH_LONG).show()
                 }
-            }
         }
     }
 }

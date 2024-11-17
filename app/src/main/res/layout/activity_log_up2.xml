@@ -112,6 +112,18 @@
             android:textStyle="bold"
             android:layout_gravity="center" />
 
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="La contraseña debe tener al menos 8 caracteres, incluir una mayúscula,
+             una minúscula y un número"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:layout_gravity="center"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

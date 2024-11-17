@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "900497489392",
+    "project_id": "red-social-8b6db",
+    "storage_bucket": "red-social-8b6db.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:900497489392:android:a919f7eee5222683487135",
+        "android_client_info": {
+          "package_name": "com.example.project_maicao_uniguajira"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTPGBsJx2e5j6cd7CHYkDM5f7q5684cfM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
